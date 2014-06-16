@@ -42,7 +42,7 @@ center = rg.CENTER_POINT
 # removes obstacle locations from output
 def around((x, y)):
     offsets = ((0, 1), (1, 0), (0, -1), (-1, 0))
-    return set([(x + dx, y + dy) for dx, dy in offsets])-obstacle
+    return {(x + dx, y + dy) for dx, dy in offsets}-obstacle
 
 
 # Function to find the closest bot to a specific location by diagonal distance
@@ -99,7 +99,7 @@ class Robot:
         # if an enemy is two steps away it might be attacking towards us
         # excludes teammates to prevent collisions
         safemove = adjacent-adjacent_enemy-adjacent_enemy2-spawn-team-taken_moves
-        # semisafemove allows for moves into attacknig enemies
+        # semisafemove allows for moves into attacking enemies
         semisafemove = adjacent-adjacent_enemy-spawn-team-taken_moves
         safemove_withspawn = adjacent-adjacent_enemy-adjacent_enemy2-team-taken_moves
 
