@@ -36,9 +36,27 @@ def main():
     fid=open(infile)
     robot_original=fid.read()
     fid.close()
-    len_original = float(len(robot_original))
+    len_original = len(robot_original)
     print 'original: %5i' % len_original
     
+    # code taken from here:
+    # http://stackoverflow.com/questions/7032031/python-regex-to-remove-comments
+    import tokenize
+    import io
+
+    def nocomment(s):
+        result = []
+        g = tokenize.generate_tokens(io.BytesIO(s).readline)  
+        for toknum, tokval, _, _, _  in g:
+            # print(toknum,tokval)
+            if toknum != tokenize.COMMENT:
+                result.append((toknum, tokval))
+        return tokenize.untokenize(result)
+
+    robot_nocomments = nocomment(robot_original)
+    len_nocomm = float(len(robot_nocomments))
+    print 'w/o comm: %5i' % len_nocomm
+        
     minipy.minify(infile, output=outfile_minipy, rename=True, preserve='Robot,act')
     fid=open(outfile_minipy)
     robot_minify=fid.read()
@@ -46,7 +64,7 @@ def main():
     if args.delete_minipy:
         os.remove(outfile_minipy)
     len_minify = len(robot_minify)
-    print 'minipy  : %5i  (%2i%% of original)' % (len_minify,len_minify/len_original*100)
+    print 'minipy  : %5i  (%2i%% of original w/o comm)' % (len_minify,len_minify/len_nocomm*100)
 
     robot_zlib = zlib.compress(robot_minify,9)
     print 'zlib    : %5i' % len(robot_zlib)
@@ -61,7 +79,7 @@ def main():
     fid.write('\'' + robot_encoded + '\'))')
     fid.close()
 
-    print 'final   : %5i  (%2i%% of original)' % (len_encoded+65,(len_encoded+65)/len_original*100)
+    print 'final   : %5i  (%2i%% of original w/o comm)' % (len_encoded+65,(len_encoded+65)/len_nocomm*100)
     
 if __name__ == '__main__':
     main()
