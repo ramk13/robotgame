@@ -73,8 +73,8 @@ class Robot:
             return ['move', loc]
 
         # If staying save the location that we are at
-        def staying(act, loc=center):
-            taken_moves.add(bot)
+        def staying(act, loc=None):
+            taken_moves.add(me)
             return [act, loc]
 
         # Function to find bot with the least health
