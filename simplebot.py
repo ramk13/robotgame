@@ -1,4 +1,5 @@
 # Simplebot by ramk13
+# contibutions from mpeterv
 # Open source bot with simple rules
 # This was the approximate starting point for littlebot/fastbot
 # Feel free to use this as the starting point for a bot
