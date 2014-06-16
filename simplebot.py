@@ -31,9 +31,9 @@ attack_damage = 10
 
 all_locs = [(x, y) for x in xrange(19) for y in xrange(19)]
 # set of all spawn locations
-spawn = set(filter(lambda loc: 'spawn' in rg.loc_types(loc), all_locs))
+spawn = {loc for loc in all_locs if 'spawn' in rg.loc_types(loc)}
 # set of all obstacle locations
-obstacle = set(filter(lambda loc: 'obstacle' in rg.loc_types(loc), all_locs))
+obstacle = {loc for loc in all_locs if 'obstacle' in rg.loc_types(loc)}
 center = rg.CENTER_POINT
 
 
@@ -83,7 +83,7 @@ class Robot:
 
         # Setup basic sets of robots
         me = self.location
-        team = set([bot for bot in robots if robots[bot].player_id == self.player_id])
+        team = {loc for loc in robots if robots[loc].player_id == self.player_id}
         enemy = set(robots)-team
 
         adjacent = around(me)
@@ -92,7 +92,7 @@ class Robot:
         # adjacent squares with an enemy next to that square
         # excludes square if a teammate is in the square
         # (enemy is two steps away)
-        adjacent_enemy2 = set(filter(lambda k: around(k) & enemy, adjacent)) - team
+        adjacent_enemy2 = {loc for loc in adjacent if around(loc) & enemy} - team
         # set of squares that are safe to move to
         # spawn is bad, and moving into an enemy is bad
         # if an enemy is two steps away it might be attacking towards us
