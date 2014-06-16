@@ -1,6 +1,7 @@
-Robotgame basic strategy
+#Robotgame basic strategy
 by ramk13
 
+##Individual Strategies:
 
 So let's expand on examplebot, the move to center with attack bot. Here's a list of ideas:
 
@@ -24,8 +25,11 @@ If we have a bunch of safe options, why move to center? We know staying in spawn
 
 * Idea 5 - Move towards the enemy if there isn't one nearby
 
-Let's put these ideas together into pseudocode:
+## Combining the ideas
 
+Let's put these ideas together into pseudocode. We can put all the decision logic for our bot in a single if/else statement.
+
+```
 if we're in spawn:
     move somewhere safe (i.e. out of spawn)
 else if there's an enemy next to us (1 step away):
@@ -39,37 +43,65 @@ else if there's somewhere safe to move: (there's no one near us)
     move somewhere safe, but towards the closest enemy
 else:
     guard, since there's nowhere to move or attack
+```
     
-Now we've got all the decision logic for our bot in a single if/else statement. To implement this in code, it's best to write a few functions. Note: There are a lot of ways to do the same thing in python. This is not optimal in any way, just a functional example. Let's start by saying that we have lists of the following: teammates, enemies, spawn locations 'spawn', obstacle locations 'obstacle' To make things easier, we can turn all of these lists into python sets using the set() function or set comprehensions to start. This allows us to use the following set operators (more info here: https://docs.python.org/2/library/sets.html ):
+## Implementing it in code
 
+To implement this in code, we need some data structure with our game info and a few functions. Note: There are a lot of ways to do the same thing in python. This is not optimal in any way, just a functional example. 
+
+### Using sets instead of lists
+
+To make things easier, we can use python sets instead of lists with the set() function or set comprehensions to start. This allows us to use the following set operators (more info here: https://docs.python.org/2/library/sets.html ):
+
+* | or union - gives you a set with all elements in both sets
+* - or difference - gives you a set with the second sets elements removed from the first
+* & or intersection - gives you a set that only has elements that are in both sets
+
+Let's start by saying that we have lists of the following: teammates, enemies, spawn locations 'spawn', obstacle locations 'obstacle'
+
+### Base data structures
+
+```python
 all_locs = {(x, y) for x in xrange(19) for y in xrange(19)}
 spawn = {loc for loc in all_locs if 'spawn' in rg.loc_types(loc)}
 obstacle = {loc for loc in all_locs if 'obstacle' in rg.loc_types(loc)}
+team = {loc for loc in robots if robots[loc].player_id == self.player_id}
+enemy = set(robots)-team
+```
 
-| or union - gives you a set with all elements in both sets
-- or difference - gives you a set with the second sets elements removed from the first
-& or intersection - gives you a set that only has elements that are in both sets
+### Using the data structures to create useful sets/functions
 
 For moving/attacking, there are only four possibilities for directions and the function rg.locs_around can give us those. We can exclude obstacle locations, since we'll never move or attack to those.
 
+```python
 adjacent = rg.locs_around(self.location) - obstacle
 adjacent_enemy = adjacent & enemy
+```
 
-To figure where there are enemies two steps away, let's look at adjacent squares with an enemy next to that square. We'll exclude an adjacent square if a teammate is in the square.
+To figure where there are enemies two steps away, let's look at adjacent squares with an enemy next to that square. We'll exclude an adjacent square if a teammate is in the square. This cuts down on collisions.
 
+```python
 adjacent_enemy2 = {loc for loc in adjacent_enemy if around(loc) & enemy} - team
+```
 
 Then we need to check whether each of those is safe:
 
+```python
 safe = adjacent - adjacent_enemy - adjacent_enemy2 - spawn - team
+```
 
 We need a function that gives us the location from a set that is closest to what we specify. We can use this function find the closest enemy, but also to choose between our list of safe moves. We can pick the safe move that's closest to where we want to go.
 
+```python
 def mindist(bots, loc):
     return min(bots, key=lambda x: rg.dist(x, loc))
+```
+    
+## Putting it all together
     
 Let's put all this together in code (Note: this doesn't constitute a whole working bot):
 
+```python
 all_locs = {(x, y) for x in xrange(19) for y in xrange(19)}
 spawn = {loc for loc in all_locs if 'spawn' in rg.loc_types(loc)}
 obstacle = {loc for loc in all_locs if 'obstacle' in rg.loc_types(loc)}
@@ -102,6 +134,7 @@ elif adjacent_enemy2:
     move = ['attack', adjacent_enemy2.pop()]
 elif safe:
     move = mindist(safe, closest_enemy)
+```
 
     
 
