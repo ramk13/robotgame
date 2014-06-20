@@ -50,13 +50,13 @@ If you watch any decent robots, you'll immediately notice that if you move into 
 
 the example bot moves towards the center, but there are several cases where it makes sense to do something else. It's more important to move where its safe so that we don't put ourselves in danger with no benefit. So what's not safe? Spawn, moving into an enemy, moving next to an enemy. We know we can't move into obstacles. Also, we can cut down on collisions if we don't move into teammates. Later we can find situations where it's worth moving somewhere that isn't explicitly safe, but for now let's stick with this.
 
-* Idea 4 - Only move to safe spots which are unoccupied
+* Feature 4 - Only move to safe spots which are unoccupied
 
 If we have a bunch of safe options, why move to center? We know staying in spawn is bad, but that doesn't make the center good. A better idea is moving towards (but not into) the enemy. This combined with attacking towards enemies will give us better control of the board. 
 
-* Idea 5 - Move towards the enemy if there isn't one within two steps
+* Feature 5 - Move towards the enemy if there isn't one within two steps
 
-## Combining the ideas
+## Combining the features
 
 Let's put these ideas together into pseudocode. We can put all the decision logic for our bot in a single if/else statement.
 
@@ -111,7 +111,7 @@ adjacent = rg.locs_around(self.location) - obstacle
 adjacent_enemy = adjacent & enemy
 ```
 
-To figure out where there are enemies two steps away, let's look at adjacent squares with an enemy next to that square. We'll exclude an adjacent square if a teammate is in the square. This cuts down on collisions.
+To figure out where there are enemies two steps away, let's look at adjacent squares with an enemy next to that square. We'll exclude an adjacent square if a teammate is in the square.
 
 ```python
 adjacent_enemy2 = {loc for loc in adjacent_enemy if around(loc) & enemy} - team
