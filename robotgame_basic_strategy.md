@@ -97,7 +97,7 @@ all_locs = {(x, y) for x in xrange(19) for y in xrange(19)}
 spawn = {loc for loc in all_locs if 'spawn' in rg.loc_types(loc)}
 obstacle = {loc for loc in all_locs if 'obstacle' in rg.loc_types(loc)}
 team = {loc for loc in game.robots if game.robots[loc].player_id == self.player_id}
-enemy = set(robots)-team
+enemy = set(game.robots)-team
 ```
 
 You can see here how we made a set of the enemy robots by taking all the robots and substracting out our team.
@@ -139,7 +139,7 @@ all_locs = {(x, y) for x in xrange(19) for y in xrange(19)}
 spawn = {loc for loc in all_locs if 'spawn' in rg.loc_types(loc)}
 obstacle = {loc for loc in all_locs if 'obstacle' in rg.loc_types(loc)}
 team = {loc for loc in game.robots if game.robots[loc].player_id == self.player_id}
-enemy = set(robots)-team
+enemy = set(game.robots)-team
 
 adjacent = rg.locs_around(self.location) - obstacle
 adjacent_enemy = adjacent & enemy
