@@ -64,7 +64,7 @@ Let's put these ideas together into pseudocode. We can put all the decision logi
 if we're in spawn:
     move somewhere safe (i.e. out of spawn)
 else if there's an enemy next to us (1 step away):
-    if we are low on health:
+    if we are in danger of dying:
         move somewhere safe
     else:
         attack an enemy
@@ -107,14 +107,15 @@ You can see here how we made a set of the enemy robots by taking all the robots 
 For moving/attacking, there are only four possibilities for directions and the function rg.locs_around can give us those. We can exclude obstacle locations, since we'll never move or attack to those. `adjacent & enemy` gives us the the adjacent squares that also are in the set of enemies.
 
 ```python
-adjacent = rg.locs_around(self.location) - obstacle
+adjacent = set(rg.locs_around(self.location)) - obstacle
 adjacent_enemy = adjacent & enemy
 ```
 
 To figure out where there are enemies two steps away, let's look at adjacent squares with an enemy next to that square. We'll exclude an adjacent square if a teammate is in the square.
 
 ```python
-adjacent_enemy2 = {loc for loc in adjacent_enemy if around(loc) & enemy} - team
+adjacent_enemy2 = {loc for loc in adjacent if (set(rg.locs_around(loc)) & enemy)} - team
+team
 ```
 
 Then we need to check whether each of those is safe. We'll remove options where there's an enemy one or two steps away. We'll also exclude spawn so that we don't go back into it. Also, to cut down on collisions we can exclude moving into teammates. When we get more complex we can remove the team restriction, but we'll need to add another check in its place. For now this is best.
@@ -141,14 +142,14 @@ obstacle = {loc for loc in all_locs if 'obstacle' in rg.loc_types(loc)}
 team = {loc for loc in game.robots if game.robots[loc].player_id == self.player_id}
 enemy = set(game.robots)-team
 
-adjacent = rg.locs_around(self.location) - obstacle
+adjacent = set(rg.locs_around(self.location)) - obstacle
 adjacent_enemy = adjacent & enemy
-adjacent_enemy2 = {loc for loc in adjacent_enemy if around(loc) & enemy} - team
+adjacent_enemy2 = {loc for loc in adjacent if (set(rg.locs_around(loc)) & enemy)} - team
 safe = adjacent - adjacent_enemy - adjacent_enemy2 - spawn - team
 
 def mindist(bots, loc):
     return min(bots, key=lambda x: rg.dist(x, loc))
-    
+
 closest_enemy = mindist(enemy,self.location)
 
 # we'll overwrite this if there's something better to do
@@ -156,17 +157,17 @@ move = ['guard']
 
 if self.location in spawn:
     if safe:
-        move = mindist(safe, rg.CENTER_POINT)
+        move = ['move', mindist(safe, rg.CENTER_POINT)]
 elif adjacent_enemy:
-    if attack_damage*len(adjacent_enemy) >= self.hp:
+    if 9*len(adjacent_enemy) >= self.hp:
         if safe:
-            move = mindist(safe, rg.CENTER_POINT)
-        else:
-            move = ['attack', adjacent_enemy.pop()]
+            move = ['move', mindist(safe, rg.CENTER_POINT)]
+    else:
+        move = ['attack', adjacent_enemy.pop()]
 elif adjacent_enemy2:
     move = ['attack', adjacent_enemy2.pop()]
 elif safe:
-    move = mindist(safe, closest_enemy)
+    move = ['move', mindist(safe, closest_enemy)]
 ```
 
 If you'd like to see this as a working bot, you just need to add the class and function definition at the top and have the `act` function return `move`

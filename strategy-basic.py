@@ -9,9 +9,9 @@ class Robot:
         team = {loc for loc in game.robots if game.robots[loc].player_id == self.player_id}
         enemy = set(game.robots)-team
 
-        adjacent = rg.locs_around(self.location) - obstacle
+        adjacent = set(rg.locs_around(self.location)) - obstacle
         adjacent_enemy = adjacent & enemy
-        adjacent_enemy2 = {loc for loc in adjacent_enemy if around(loc) & enemy} - team
+        adjacent_enemy2 = {loc for loc in adjacent if (set(rg.locs_around(loc)) & enemy)} - team
         safe = adjacent - adjacent_enemy - adjacent_enemy2 - spawn - team
 
         def mindist(bots, loc):
@@ -24,16 +24,16 @@ class Robot:
 
         if self.location in spawn:
             if safe:
-                move = mindist(safe, rg.CENTER_POINT)
+                move = ['move', mindist(safe, rg.CENTER_POINT)]
         elif adjacent_enemy:
-            if attack_damage*len(adjacent_enemy) >= self.hp:
+            if 9*len(adjacent_enemy) >= self.hp:
                 if safe:
-                    move = mindist(safe, rg.CENTER_POINT)
-                else:
-                    move = ['attack', adj_en.pop()]
+                    move = ['move', mindist(safe, rg.CENTER_POINT)]
+            else:
+                move = ['attack', adjacent_enemy.pop()]
         elif adjacent_enemy2:
             move = ['attack', adjacent_enemy2.pop()]
         elif safe:
-            move = mindist(safe, closest_enemy)
+            move = ['move', mindist(safe, closest_enemy)]
             
         return move
