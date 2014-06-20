@@ -130,6 +130,8 @@ We need a function that gives us the location from a set that is closest to what
 def mindist(bots, loc):
     return min(bots, key=lambda x: rg.dist(x, loc))
 ```
+
+We can use the `pop()` method of a set to get an arbitrary element of that set. We can use that to pick an enemy to attack. Also to tell whether we are in danger of dying or not, we can multiply the number of enemies adjacent to us by the average damage of an attack (9 hit points) and see if we have more health than that.
     
 ## Putting it all together
     
