@@ -52,7 +52,7 @@ the example bot moves towards the center, but there are several cases where it m
 
 The combination of fleeing plus attacking towards enemies is really powerful. Any aggressive enemy has to run into your attack to get to next you before they can even attack you. If you move away after they close, you can start the process again. In gaming this tactic is called [kiting](http://gaming.stackexchange.com/questions/18903/what-is-kiting) and you can see how powerful it is here:
 
-![Kiting example](https://github.com/ramk13/robotgame/blob/master/strategy_guide/kiting.gif)
+![Kiting example](https://raw.githubusercontent.com/ramk13/robotgame/master/strategy_guide/kiting.gif)
 
 Look at how the weak 8 hp bot moves next to the stronger 50 hp bot, then flees. It attacks the square the 50 hp bot moves into, then flees again and restarts the process. This goes on until the formerly stronger bot suicides (not helpful in this case). All the while our 8 hp bot hasn't gotten hit.
 
