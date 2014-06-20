@@ -131,7 +131,7 @@ def mindist(bots, loc):
     return min(bots, key=lambda x: rg.dist(x, loc))
 ```
 
-We can use the `pop()` method of a set to get an arbitrary element of that set. We can use that to pick an enemy to attack. Also to tell whether we are in danger of dying or not, we can multiply the number of enemies adjacent to us by the average damage of an attack (9 hit points) and see if we have more health than that.
+We can use the `pop()` method of a set to get an arbitrary element of that set. We can use that to pick an enemy to attack. Also to tell whether we are in danger of dying or not, we can multiply the number of enemies adjacent to us by the average damage of an attack (9 hit points) and see if we have more health than that. Because of the way we wrote our minimum distance function, we need to be sure that we always put a set with objects in it. For that reason, we need to make sure that `enemy` isn't empty or we'll get an error from `mindist`.
     
 ## Putting it all together
     
@@ -152,7 +152,10 @@ safe = adjacent - adjacent_enemy - adjacent_enemy2 - spawn - team
 def mindist(bots, loc):
     return min(bots, key=lambda x: rg.dist(x, loc))
 
-closest_enemy = mindist(enemy,self.location)
+if enemy:
+    closest_enemy = mindist(enemy,self.location)
+else
+    closest_enemy = rg.CENTER_POINT
 
 # we'll overwrite this if there's something better to do
 move = ['guard']

@@ -17,7 +17,10 @@ class Robot:
         def mindist(bots, loc):
             return min(bots, key=lambda x: rg.dist(x, loc))
 
-        closest_enemy = mindist(enemy,self.location)
+        if enemy:
+            closest_enemy = mindist(enemy,self.location)
+        else:
+            closest_enemy = rg.CENTER_POINT
 
         # we'll overwrite this if there's something better to do
         move = ['guard']
