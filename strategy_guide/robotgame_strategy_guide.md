@@ -13,6 +13,6 @@ If you have a local maching you can run python on, I highly suggest you install 
 
 * [Getting Started](https://robotgame.net/gettingstarted) - [final code](https://github.com/ramk13/robotgame/blob/master/strategy_guide/strategy-example.py)
 
-..*If you haven't visited this page, take a look here first
+..* If you haven't visited this page, take a look here first
 * [Basic Strategy](https://github.com/ramk13/robotgame/blob/master/strategy_guide/robotgame_basic_strategy.md) - [final code](https://github.com/ramk13/robotgame/blob/master/strategy_guide/strategy-basic.py)
 * Intermediate Strategy (Work in Progress)
