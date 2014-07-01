@@ -7,7 +7,7 @@ The purpose of this strategy guide is to help people get started on bots more ad
 
 Feel free to use the code in this guide in your bots, but please don't copy and paste a whole bot with no changes. That isn't learning or improving, it's just copying. Attribution would be appreciated if you use significant portions of code. I'll say that I learned a lot from many of the open source bots on [mpeterv's github](https://github.com/mpeterv/robotgame-bots) including his bot, [liquid 1.0](https://robotgame.net/robot/7913).
 
-If you have a local maching you can run python on, I highly suggest you install [rgkit](https://github.com/WhiteHalmos/rgkit) so you can do offline testing without having to paste your code to the server every time. It'll make improving a lot faster. I put together a list of other tools and suggestions for improving soon.
+If you have a local machine that you can run python on, I highly suggest you install [rgkit](https://github.com/WhiteHalmos/rgkit) so you can do offline testing without having to paste your code to the server every time. It'll make improving a lot faster. I'll put together a list of other tools and suggestions for improving soon.
 
 ##The guides
 
