@@ -1,5 +1,8 @@
 import imp,os,base64,zlib,argparse
 
+# shrinkbot.py by ramk13
+# https://github.com/ramk13/robotgame/
+
 def main():
 
     try:
