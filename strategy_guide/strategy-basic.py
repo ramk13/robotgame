@@ -1,3 +1,5 @@
+# Strategy Guide - Basic bot by ramk13
+
 import rg
 
 class Robot:

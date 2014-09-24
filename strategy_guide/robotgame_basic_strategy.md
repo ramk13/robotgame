@@ -36,31 +36,31 @@ This gets us started but we can add a lot to it. For the most part the features 
 
 So let's expand on the example bot. Here's a list of features that we can add:
 
-Staying in spawn is bad. So let's check if we are in spawn, and if we are let's leave. We should leave even if there's someone to attack, because we don't want to get stuck/trapped in there.
-
 * Feature 1 - Leave spawn
 
-The example bot attacks until it dies. Since the score is only the number of bots you have and not their health, it's worth more to stay alive than to do 10 more damage to a bot. So how about we see if we are about to die, and if so we run for it instead of dying in vain.
+Staying in spawn is bad. So let's check if we are in spawn, and if we are let's leave. We should leave even if there's someone to attack, because we don't want to get stuck/trapped in there.
 
 * Feature 2 - Flee if we're going to die
 
-If you watch any decent robots, you'll immediately notice that if you move into a space that someone else is attacking, you get hit. For that reason, if there's a chance someone might move into a spot next to us, we should attack towards them. That prevents anyone from getting next to us without taking a hit.
+The example bot attacks until it dies. Since the score is only the number of bots you have and not their health, it's worth more to stay alive than to do 10 more damage to a bot. So how about we see if we are about to die, and if so we run for it instead of dying in vain.
 
 * Feature 3 - Attack towards enemies two steps away
 
-the example bot moves towards the center, but there are several cases where it makes sense to do something else. It's more important to move where its safe so that we don't put ourselves in danger with no benefit. So what's not safe? Spawn, moving into an enemy, moving next to an enemy. We know we can't move into obstacles. Also, we can cut down on collisions if we don't move into teammates.
+If you watch any decent robots, you'll immediately notice that if you move into a space that someone else is attacking, you get hit. For that reason, if there's a chance someone might move into a spot next to us, we should attack towards them. That prevents anyone from getting next to us without taking a hit.
 
-The combination of fleeing plus attacking towards enemies is really powerful. Any aggressive enemy has to run into your attack to get to next you before they can even attack you. If you move away after they close, you can start the process again. In gaming this tactic is called [kiting](http://gaming.stackexchange.com/questions/18903/what-is-kiting) and you can see how powerful it is here:
+>The combination of fleeing plus attacking towards enemies is really powerful. Any aggressive enemy has to run into your attack to get to next you before they can even attack you. If you move away after they close, you can start the process again. In gaming this tactic is called [kiting](http://gaming.stackexchange.com/questions/18903/what-is-kiting) and you can see how powerful it is here:
 
-![Kiting example](https://raw.githubusercontent.com/ramk13/robotgame/master/strategy_guide/kiting.gif)
+>![Kiting example](https://raw.githubusercontent.com/ramk13/robotgame/master/strategy_guide/kiting.gif)
 
-Look at how the weak 8 hp bot moves next to the stronger 50 hp bot, then flees. It attacks the square the 50 hp bot moves into, then flees again and restarts the process. This goes on until the formerly stronger bot suicides (not helpful in this case). All the while our 8 hp bot hasn't gotten hit.
+>Look at how the weak 8 hp bot moves next to the stronger 50 hp bot, then flees. It attacks the square the 50 hp bot moves into, then flees again and restarts the process. This goes on until the formerly stronger bot suicides (not helpful in this case). All the while our 8 hp bot hasn't gotten hit.
 
 * Feature 4 - Only move to safe spots which are unoccupied
 
-If we have a bunch of safe options, why move to center? We know staying in spawn is bad, but that doesn't make the center good. A better idea is moving towards (but not into) the enemy. This combined with attacking towards enemies will give us better control of the board. Later we can find situations where it's worth moving somewhere that isn't explicitly safe, but for now let's stick with this.
+the example bot moves towards the center, but there are several cases where it makes sense to do something else. It's more important to move where its safe so that we don't put ourselves in danger with no benefit. So what's not safe? Spawn, moving into an enemy, moving next to an enemy. We know we can't move into obstacles. Also, we can cut down on collisions if we don't move into teammates.
 
 * Feature 5 - Move towards the enemy if there isn't one within two steps
+
+If we have a bunch of safe options, why move to center? We know staying in spawn is bad, but that doesn't make the center good. A better idea is moving towards (but not into) the enemy. This combined with attacking towards enemies will give us better control of the board. Later we can find situations where it's worth moving somewhere that isn't explicitly safe, but for now let's stick with this.
 
 ## Combining the features
 
@@ -88,7 +88,7 @@ To implement this in code, we need some data structures with our game info and a
 
 ### Using sets instead of lists
 
-To make things easier, we can use python sets instead of lists with the set() function or set comprehensions to start. This allows us to use the following set operators (more info here: https://docs.python.org/2/library/sets.html ):
+To make things easier, we can use python sets instead of lists with the set() function or set comprehensions to start. This allows us to use the following set operators (more info here: https://docs.python.org/2/library/sets.html ). Also if you aren't familiar or comfortable with list/set comprehensions, check out [this example of a list comprehension and its equivalent for loop](https://docs.python.org/2/tutorial/datastructures.html#list-comprehensions) from the python docs.
 
 * | or union - gives you a set with all elements in both sets
 * - or difference - gives you a set with the second sets elements removed from the first
@@ -106,7 +106,7 @@ team = {loc for loc in game.robots if game.robots[loc].player_id == self.player_
 enemy = set(game.robots)-team
 ```
 
-You can see here how we made a set of the enemy robots by taking all the robots and substracting out our team.
+You can see here how we made a set of the enemy robots by taking all the robots and subtracting out our team.
 
 ### Using the data structures to create useful sets/functions
 
