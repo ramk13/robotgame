@@ -1,4 +1,4 @@
-#Robotgame basic strategy
+#Robotgame Intermediate Strategy
 by ramk13
 
 ## Building up from the basic guide
