@@ -17,7 +17,7 @@ And changed/added the following features:
 * Only move to safe spots which are unoccupied
 * Move towards the enemy if there isn't one within two steps
 
-Let's build on that with more features. Note from this point forward we'll just look at snippets of code that are changing and you'll have to paste them into the basic bot to improve.
+Let's build on that with more features. Note from this point forward we'll just look at snippets of code that are changing and you'll have to integrate them into the basic bot to improve.
 
 ## Intermediate level - more features 
 
@@ -26,6 +26,7 @@ Let's build on that with more features. Note from this point forward we'll just 
 This feature adds a lot of complexity to our bot but its needed to prevent move conflicts. Our current bots can try to move into the same spot and also attack ourselves. We don't lose HP from self-attacking but there will (almost) always be a better choice of move. If we keep track of all of our previous moves on a given turn we can avoid these conflicts. We'll need several pieces of code to do this. First we need to add a variable to keep track of whether this is the first robot called on a turn. If so, we should clear the list of taken moves and update the turn counter. We should put code in as the first lines of Robot.act:
 
 ```python
+# You'll need to initialize the global variable turn_number
 global turn_number, taken_moves
 if game.turn != turn_number:
     turn_number = game.turn
@@ -40,7 +41,7 @@ def moving(loc):
     taken_moves.add(loc)
     return ['move', loc]
 
-# If staying save the location that we are at
+# If staying save the location that we are at, note the use of the self.location
 def staying(act, loc=None):
     taken_moves.add(self.location)
     return [act, loc]
@@ -72,6 +73,8 @@ move = moving(mindist(safe, closest_enemy))
 move = staying('attack', adjacent_enemy.pop())
 ```
         
+
+One caveat is that bots are not allowed to swap places. With the current code it is possible to have two bots try to swap places but fail.
 
 ### Attack the weakest adjacent bot instead of a random one
 
