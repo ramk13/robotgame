@@ -148,5 +148,6 @@ To summarize, these are the features that we added:
 * Run away from uneven matchups
 * Chase weak robots
 
+These changes together lead to a bot similar to the open-source [simplebot](https://robotgame.net/robot/10976). Check it out for more ideas on how to improve this bot. What we've been building so far is a bot that follows a set of rules, but in the next guide we'll take a look at bots with other methods of deciding what move to take in addition to a few more rule-based bot tweaks.
 
 If you are ready for advanced concepts check out the advanced strategy guide (coming soon...)
