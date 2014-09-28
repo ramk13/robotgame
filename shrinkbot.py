@@ -77,12 +77,12 @@ def main():
     print 'base64  : %5i' % len_encoded
     
     fid=open(outfile_shrink ,'w')
-    fid.write('import base64,zlib\n')
-    fid.write('exec zlib.decompress(base64.decodestring(')
-    fid.write('\'' + robot_encoded + '\'))')
+    final_string = 'import base64,zlib\nexec zlib.decompress(base64.decodestring(\'' + robot_encoded + '\'))'
+    len_final = len(final_string)
+    fid.write(final_string)
     fid.close()
 
-    print 'final   : %5i  (%2i%% of original w/o comm)' % (len_encoded+65,(len_encoded+65)/len_nocomm*100)
+    print 'final   : %5i  (%2i%% of original w/o comm)' % (len_final,(len_final)/len_nocomm*100)
     
 if __name__ == '__main__':
     main()
