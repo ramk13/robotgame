@@ -185,7 +185,7 @@ If you'd like to see this as a working bot, you just need to add the class and f
 
 Here's the [basic strategy bot as a file](https://github.com/ramk13/robotgame/blob/master/strategy_guide/strategy-basic.py).
 
-If you are ready for more features move on to the intermediate strategy guide (work in progress).
+If you are ready for more features move on to the [intermediate strategy guide](https://github.com/ramk13/robotgame/blob/master/strategy_guide/robotgame_intermediate_strategy.md).
 
     
             
