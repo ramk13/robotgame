@@ -60,7 +60,7 @@ def main():
     len_nocomm = float(len(robot_nocomments))
     print 'w/o comm: %5i' % len_nocomm
         
-    minipy.minify(infile, output=outfile_minipy, rename=True, preserve='Robot,act', docstrings=True)
+    minipy.minify(infile, output=outfile_minipy, rename=True, preserve='Robot,act,rgkit', docstrings=True)
     fid=open(outfile_minipy)
     robot_minify=fid.read()
     fid.close()
